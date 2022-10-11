@@ -16,6 +16,7 @@ const Tshirts = ({ products }) => {
     </section>
   );
 };
+// MONGO_URL=mongodb://localhost:27017/codeswear
 export async function getServerSideProps(context) {
   if (!mongoose.connections[0].readyState) {
     await mongoose.connect(process.env.MONGO_URL);
