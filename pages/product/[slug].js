@@ -3,38 +3,38 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Product from "../../models/Product";
 
-const Post = ({addToCart,product,variants}) => {
+const Post = ({ addToCart, product, variants }) => {
   // console.log(product,variants)
+  const hostname='https://codeswearapp.herokuapp.com/'
+  // const hostname='http://localhost:3000'
   const router = useRouter();
   const { slug } = router.query;
-const [pin,setPin] = useState();
-const [service,setService] = useState();
-const checkServiceAbility = async ()=>{
-  let pins=await fetch('http://localhost:3000/api/pincode')
-  let pinJson = await pins.json()
-  if(pinJson.includes(parseInt(pin))){
-    setService(true)
-  }else{
-    setService(false)
-  }
-}
-const onChangePin=(e)=>{
-  setPin(e.target.value)
-}
+  const [pin, setPin] = useState();
+  const [service, setService] = useState();
+  const checkServiceAbility = async () => {
+    let pins = await fetch(hostname+"/api/pincode");
+    let pinJson = await pins.json();
+    if (pinJson.includes(parseInt(pin))) {
+      setService(true);
+    } else {
+      setService(false);
+    }
+  };
+  const onChangePin = (e) => {
+    setPin(e.target.value);
+  };
 
-const [color, setColor] = useState(product.color);
-const [size, setSize]= useState(product.size);
+  const [color, setColor] = useState(product.color);
+  const [size, setSize] = useState(product.size);
 
-const refreshVariant=(newSize,newColor)=>{
-  let url=`http://localhost:3000/product/${variants[newColor][newSize]['slug']}`
-  console.log(url)
-  // alert(variants[newColor][newSize]['slug'])
-  window.location=url
-  // setColor(newColor)
-  // setSize(newSize)
-
-
-}
+  const refreshVariant = (newSize, newColor) => {
+    let url = `${hostname}/product/${variants[newColor][newSize]["slug"]}`;
+    console.log(url);
+    // alert(variants[newColor][newSize]['slug'])
+    window.location = url;
+    // setColor(newColor)
+    // setSize(newSize)
+  };
 
   return (
     <>
@@ -48,14 +48,12 @@ const refreshVariant=(newSize,newColor)=>{
             />
             <div className='lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0'>
               <h2 className='text-sm title-font text-gray-500 tracking-widest'>
-             CODESWEAR
+                CODESWEAR
               </h2>
               <h1 className='text-gray-900 text-3xl title-font font-medium mb-1'>
-               {product.title} ({product.size}/{product.color})
+                {product.title} ({product.size}/{product.color})
               </h1>
               <div className='flex mb-4'>
-
-
                 {/* <span className='flex items-center'>
                   <svg
                     fill='currentColor'
@@ -152,9 +150,6 @@ const refreshVariant=(newSize,newColor)=>{
                     </svg>
                   </a>
                 </span> */}
-
-
-
               </div>
               <p className='leading-relaxed'>
                 {/* Fam locavore kickstarter distillery. Mixtape chillwave tumeric
@@ -171,46 +166,91 @@ const refreshVariant=(newSize,newColor)=>{
                   {/* <button className='border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none'></button> */}
                   {/* <button onClick={()=>{refreshVariant(size,color)}}
                   className='border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none'></button> */}
-                  {Object.keys(variants).includes('Blue') &&
-                  Object.keys(variants['Blue']).includes(size) &&
-                  <button onClick={()=>{refreshVariant(size,'Blue')}}
-                   className={`border-2  ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color==='Blue'?'border-black':'border-gray-300'}`}>
-                  </button>}
-                  {Object.keys(variants).includes('Black') &&
-                  Object.keys(variants['Black']).includes(size) &&
-                  <button onClick={()=>{refreshVariant(size,'Black')}}
-                   className={`border-2  ml-1 bg-black rounded-full w-6 h-6 focus:outline-none ${color==='Black'?'border-black':'border-gray-300'}`}>
-                  </button>}
-                  {Object.keys(variants).includes('Yellow') &&
-                  Object.keys(variants['Yellow']).includes(size) &&
-                  <button onClick={()=>{refreshVariant(size,'Yellow')}}
-                   className={`border-2  ml-1 bg-yellow-500 rounded-full w-6 h-6 focus:outline-none ${color==='Yellow'?'border-black':'border-gray-300'}`}>
-                  </button>}
-                  {Object.keys(variants).includes('White') &&
-                  Object.keys(variants['White']).includes(size) &&
-                  <button onClick={()=>{refreshVariant(size,'White')}}
-                   className={`border-2  ml-1 bg-white-500 rounded-full w-6 h-6 focus:outline-none ${color==='White'?'border-black':'border-blue-300'}`}>
-                  </button>}
-                  {Object.keys(variants).includes('Pink') &&
-                  Object.keys(variants['Pink']).includes(size) &&
-                  <button onClick={()=>{refreshVariant(size,'Pink')}}
-                   className={`border-2  ml-1 bg-pink-500 rounded-full w-6 h-6 focus:outline-none ${color==='Pink'?'border-black':'border-blue-300'}`}>
-                  </button>}
-
-
-
+                  {Object.keys(variants).includes("Blue") &&
+                    Object.keys(variants["Blue"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariant(size, "Blue");
+                        }}
+                        className={`border-2  ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${
+                          color === "Blue" ? "border-black" : "border-gray-300"
+                        }`}
+                      ></button>
+                    )}
+                  {Object.keys(variants).includes("Black") &&
+                    Object.keys(variants["Black"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariant(size, "Black");
+                        }}
+                        className={`border-2  ml-1 bg-black rounded-full w-6 h-6 focus:outline-none ${
+                          color === "Black" ? "border-black" : "border-gray-300"
+                        }`}
+                      ></button>
+                    )}
+                  {Object.keys(variants).includes("Yellow") &&
+                    Object.keys(variants["Yellow"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariant(size, "Yellow");
+                        }}
+                        className={`border-2  ml-1 bg-yellow-500 rounded-full w-6 h-6 focus:outline-none ${
+                          color === "Yellow"
+                            ? "border-black"
+                            : "border-gray-300"
+                        }`}
+                      ></button>
+                    )}
+                  {Object.keys(variants).includes("White") &&
+                    Object.keys(variants["White"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariant(size, "White");
+                        }}
+                        className={`border-2  ml-1 bg-white-500 rounded-full w-6 h-6 focus:outline-none ${
+                          color === "White" ? "border-black" : "border-blue-300"
+                        }`}
+                      ></button>
+                    )}
+                  {Object.keys(variants).includes("Pink") &&
+                    Object.keys(variants["Pink"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariant(size, "Pink");
+                        }}
+                        className={`border-2  ml-1 bg-pink-500 rounded-full w-6 h-6 focus:outline-none ${
+                          color === "Pink" ? "border-black" : "border-blue-300"
+                        }`}
+                      ></button>
+                    )}
                 </div>
                 <div className='flex ml-6 items-center'>
                   <span className='mr-3'>Size</span>
                   <div className='relative'>
-                    <select value={size} onChange={(e)=>{refreshVariant(e.target.value,color)}} className='rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10'>
-                     {Object.keys(variants[color]).includes('S') && <option value={'S'} >S</option>}
-                     {Object.keys(variants[color]).includes('M') && <option value={'M'}>M</option>}
-                     {Object.keys(variants[color]).includes('XL') && <option value={'XL'}>XL</option>}
-                     {Object.keys(variants[color]).includes('XXL') && <option value={'XXL'}>XXL</option>}
-
+                    <select
+                      value={size}
+                      onChange={(e) => {
+                        refreshVariant(e.target.value, color);
+                      }}
+                      className='rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10'
+                    >
+                      {Object.keys(variants[color]).includes("S") && (
+                        <option value={"S"}>S</option>
+                      )}
+                      {Object.keys(variants[color]).includes("M") && (
+                        <option value={"M"}>M</option>
+                      )}
+                      {Object.keys(variants[color]).includes("XL") && (
+                        <option value={"XL"}>XL</option>
+                      )}
+                      {Object.keys(variants[color]).includes("XXL") && (
+                        <option value={"XXL"}>XXL</option>
+                      )}
                     </select>
-                    <span onChange={()=>refreshVariant()} className='absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center'>
+                    <span
+                      onChange={() => refreshVariant()}
+                      className='absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center'
+                    >
                       <svg
                         fill='none'
                         stroke='currentColor'
@@ -233,60 +273,70 @@ const refreshVariant=(newSize,newColor)=>{
                 <button className='flex ml-4 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded'>
                   Bay Now
                 </button>
-                <button onClick={()=>addToCart(slug,1,499,product.title,size,color)} className='flex ml-4 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded'>
+                <button
+                  onClick={() =>
+                    addToCart(slug, 1, 499, product.title, size, color)
+                  }
+                  className='flex ml-4 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded'
+                >
                   Add to Cart
                 </button>
               </div>
               <div className='pin mt-6 flex space-x-2 text-sm'>
                 <input
-                placeholder="Enter Your Pin Code"
-                onChange={onChangePin}
+                  placeholder='Enter Your Pin Code'
+                  onChange={onChangePin}
                   className='px-2 border-2 border-gray-400 rounded-md'
                   type='text'
                 />
-                <button onClick={checkServiceAbility} className='text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded'>
+                <button
+                  onClick={checkServiceAbility}
+                  className='text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded'
+                >
                   Check
                 </button>
               </div>
-              {
-                (!service && service !=null)  && <div className="text-red-700 text-sm mt-3">
+              {!service && service != null && (
+                <div className='text-red-700 text-sm mt-3'>
                   Sorry! We do not deliver to this pin code.
                 </div>
-              }
+              )}
 
-              {
-                 (service && service !=null) && <div className="text-green-700 text-sm mt-3">
+              {service && service != null && (
+                <div className='text-green-700 text-sm mt-3'>
                   Yay! This pin code is servicable
                 </div>
-                }
+              )}
             </div>
           </div>
         </div>
       </section>
     </>
   );
-}
+};
 export async function getServerSideProps(context) {
   if (!mongoose.connections[0].readyState) {
     await mongoose.connect(process.env.MONGO_URL);
   }
-  let product = await Product.findOne({slug:context.query.slug});
-  let variants=await Product.find({title:product.title})
+  let product = await Product.findOne({ slug: context.query.slug });
+  let variants = await Product.find({ title: product.title });
   // console.log(variants)
-  let colorSizeSlug={}
-  for(let item of variants){
-    if(Object.keys(colorSizeSlug).includes(item.color)){
-      colorSizeSlug[item.color][item.size]={slug:item.slug}
-    }
-    else{
-      colorSizeSlug[item.color]={}
-      colorSizeSlug[item.color][item.size]={slug:item.slug}
+  let colorSizeSlug = {};
+  for (let item of variants) {
+    if (Object.keys(colorSizeSlug).includes(item.color)) {
+      colorSizeSlug[item.color][item.size] = { slug: item.slug };
+    } else {
+      colorSizeSlug[item.color] = {};
+      colorSizeSlug[item.color][item.size] = { slug: item.slug };
     }
   }
 
   return {
-    props: { product: JSON.parse(JSON.stringify(product)),variants: JSON.parse(JSON.stringify(colorSizeSlug)) }, // will be passed to the page component as props
+    props: {
+      product: JSON.parse(JSON.stringify(product)),
+      variants: JSON.parse(JSON.stringify(colorSizeSlug)),
+    }, // will be passed to the page component as props
   };
 }
 
-export default Post
+export default Post;
